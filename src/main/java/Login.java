@@ -1,3 +1,8 @@
+
+import db.DbConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -7,6 +12,7 @@
  *
  * @author SHAH2H'
  */
+
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -34,6 +40,7 @@ public class Login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         createnewaccount = new javax.swing.JButton();
         login = new javax.swing.JLabel();
+        errorText = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -108,6 +115,10 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(createnewaccount, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(login, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(190, Short.MAX_VALUE)
+                .addComponent(errorText, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(179, 179, 179))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +136,9 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(createnewaccount)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(errorText, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,6 +160,23 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String username,password;
+        username = tusername.getText();
+        password = tPasswordField.getText();
+        try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int k = DbConnection.loginUser(username, password);
+            if (k == 0){
+                errorText.setText("Invalid input");
+            }
+            else{
+                new MyJFrame(k).setVisible(true);
+                dispose();
+            }
+            //jDialog1.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tusernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tusernameActionPerformed
@@ -159,6 +189,9 @@ public class Login extends javax.swing.JFrame {
 
     private void createnewaccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createnewaccountActionPerformed
         // TODO add your handling code here:
+        SignUp sp = new SignUp();
+        sp.setVisible(true);
+        dispose();
     }//GEN-LAST:event_createnewaccountActionPerformed
 
     /**
@@ -198,6 +231,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createnewaccount;
+    private javax.swing.JLabel errorText;
     private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JPanel jPanel1;

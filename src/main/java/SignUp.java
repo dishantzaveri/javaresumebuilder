@@ -1,5 +1,7 @@
 import db.Validate;
 import db.DbConnection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -94,6 +96,9 @@ public class SignUp  extends javax.swing.JFrame {
         signup.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         signup.setText("SIGN UP");
 
+        errorText.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        errorText.setToolTipText("");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,7 +123,7 @@ public class SignUp  extends javax.swing.JFrame {
                 .addComponent(gotodetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(110, 110, 110))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+                .addGap(130, 130, 130)
                 .addComponent(errorText, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -144,9 +149,9 @@ public class SignUp  extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(gotodetails, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(errorText, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,19 +178,19 @@ public class SignUp  extends javax.swing.JFrame {
         Password = jPasswordField.getText();
         //jdialog1=success jdialog2=error
         if (tusername.getText().equals("") || username.length() < 4) {
-            jDialog2.setVisible(true);
-            jDialog2.setSize(400, 150);
-            jDialog2.setLocation(450, 250);
+            //jDialog2.setVisible(true);
+            //jDialog2.setSize(400, 150);
+            //jDialog2.setLocation(450, 250);
             errorText.setText("Enter a valid name");
         } else if (!Validate.validate(temail.getText())) {
-            jDialog2.setVisible(true);
-            jDialog2.setSize(400, 150);
-            jDialog2.setLocation(450, 250);
+            //jDialog2.setVisible(true);
+            //jDialog2.setSize(400, 150);
+            //jDialog2.setLocation(450, 250);
             errorText.setText("Enter a valid email");
         } else if (Password.length() < 8) {
-            jDialog2.setVisible(true);
-            jDialog2.setSize(475, 150);
-            jDialog2.setLocation(450, 250);
+            //jDialog2.setVisible(true);
+            //jDialog2.setSize(475, 150);
+            //jDialog2.setLocation(450, 250);
             errorText.setText("Enter a valid password");
         } else {
             try {
@@ -194,7 +199,11 @@ public class SignUp  extends javax.swing.JFrame {
                 Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
             }
             DbConnection.saveUser(username, email, Password);
-            jDialog1.setVisible(true);
+            int k = DbConnection.loginUser(username, Password);
+            new MyJFrame(k).setVisible(true);
+            //jDialog1.setVisible(true);
+            errorText.setText("Done");
+            dispose();
     }//GEN-LAST:event_gotodetailsActionPerformed
     }
     /**
