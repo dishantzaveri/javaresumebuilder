@@ -41,6 +41,7 @@ public class Login extends javax.swing.JFrame {
         createnewaccount = new javax.swing.JButton();
         login = new javax.swing.JLabel();
         errorText = new javax.swing.JLabel();
+        previousresume = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -74,8 +75,8 @@ public class Login extends javax.swing.JFrame {
         });
 
         jButton1.setBackground(new java.awt.Color(51, 51, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setText("LOGIN");
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setText("New Resume");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -92,6 +93,15 @@ public class Login extends javax.swing.JFrame {
         login.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         login.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         login.setText("LOGIN");
+
+        previousresume.setBackground(new java.awt.Color(102, 102, 102));
+        previousresume.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        previousresume.setText("Previous Resume");
+        previousresume.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousresumeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -111,8 +121,11 @@ public class Login extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(createnewaccount, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
+                            .addComponent(createnewaccount, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(previousresume)))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(login, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -133,7 +146,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(password)
                     .addComponent(tPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(previousresume, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(createnewaccount)
                 .addGap(18, 18, 18)
@@ -194,6 +209,26 @@ public class Login extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_createnewaccountActionPerformed
 
+    private void previousresumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousresumeActionPerformed
+        // TODO add your handling code here:
+        String username,password;
+        username = tusername.getText();
+        password = tPasswordField.getText();
+        try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int k = DbConnection.loginUser(username, password);
+            if (k == 0){
+                errorText.setText("Invalid input");
+            }
+            else{
+                new Output(k).setVisible(true);
+                dispose();
+            }
+    }//GEN-LAST:event_previousresumeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -237,6 +272,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel login;
     private javax.swing.JLabel password;
+    private javax.swing.JButton previousresume;
     private javax.swing.JPasswordField tPasswordField;
     private javax.swing.JTextField tusername;
     private javax.swing.JLabel username;
