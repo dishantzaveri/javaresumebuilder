@@ -33,8 +33,8 @@ public class MyJFrame extends javax.swing.JFrame {
         Connection con = null;
         Statement pst = null;
         ResultSet rs = null;
-       
-        String query ="show tables";
+      
+        String query ="select * from personal_details;";
        
         try {
             //getting database connection to MySQL server
@@ -45,7 +45,9 @@ public class MyJFrame extends javax.swing.JFrame {
            
             //Resultset returned by query
             rs = pst.executeQuery(query);
-            
+            while(rs.next()){
+                System.out.print(rs.getString("firstname"));
+            }
             JOptionPane.showMessageDialog(null,"Connected Successfuly");
            
            
